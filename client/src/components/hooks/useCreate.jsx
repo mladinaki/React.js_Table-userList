@@ -14,8 +14,8 @@ const useCreate = ( valudate, submitHendler) => {
         streetNumber: '',
     })
 
-    const [err, setError] = useState({})
-    const [isCorrect, setCorect] = useState(false)
+    const [err, setError] = useState({});
+    const [isCorrect, setCorect] = useState(false);
 
 
     const onChange = (e) => {
