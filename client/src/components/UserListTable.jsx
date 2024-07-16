@@ -35,24 +35,7 @@ const UserListTable = () => {
     };
 
     const hideCreateUserModal = () => {
-        setShowCreate(false);
-    };
-
-    const userCreateHandler = async (e) => {
-        // Stop page from refreshing
-        e.preventDefault();
-
-        // Get data from form data
-        const data = Object.fromEntries(new FormData(e.currentTarget));
-
-        // Create new user at the server
-        const newUser = await userService.create(data);
-
-        // Add newly created user to the local state
-        setUsers(state => [...state, newUser]);
-
-        // Close the modal
-        setShowCreate(false);
+        setShowCreate(false)
     };
 
     const userInfoClickHandler = async (userId) => {
@@ -96,24 +79,29 @@ const UserListTable = () => {
     }
 
     //All search item
-    useEffect(() => {
-        userService.getAll()
-            .then(res => setSelectSearch(res))
-    })
+    // useEffect(() => {
+    //     userService.getAll()
+    //         .then(res => setSelectSearch(res))
+    // })
 
     const onSearch = (value) => {
         const searchItem = selectSearch.filter(x => x.firstName.toLowerCase().includes(value))
         setUsers(searchItem)
     }
 
-    //All search item end
+    const onSubCreate = async (values) => {
+        const result = await userService.create(values);
+        setUsers(state => [...state, result])
+        setShowCreate(false)
+    }
 
+    //All search item end
     return (
         <div className="table-wrapper">
             {showCreate && (
                 <CreateUserModal
                     onClose={hideCreateUserModal}
-                    onCreate={userCreateHandler}
+                    onSubCreate={onSubCreate}
                 />
             )}
 

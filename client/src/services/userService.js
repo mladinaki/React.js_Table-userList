@@ -41,12 +41,11 @@ export const create = async (data) => {
     })
 
     const result = await response.json();
-    console.log(result);
 
     return result;
 };
 
-export const edit = async (userId,data) => {
+export const edit = async (userId, data) => {
     const body = {
         firstName: data.firstName,
         lastName: data.lastName,
@@ -72,12 +71,8 @@ export const edit = async (userId,data) => {
     });
 
     const result = await response.json();
-    // console.log(result.user);
-    console.log(userId);
     return result
 }
-
-
 
 export const remove = async (userId) => {
     const response = await fetch(`${baseUrl}/${userId}`, {
