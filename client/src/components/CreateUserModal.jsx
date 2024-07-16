@@ -1,14 +1,25 @@
+import useCreate from "./hooks/useCreate";
+import validate from "./validate/validatecreate";
+
 const CreateUserModal = ({
     onClose,
-    onCreate,
+    onSubCreate,
+    onHadlerCreated
+
 }) => {
+
+    const { onChange, values, err, onCreate } = useCreate(
+        validate,
+        onSubCreate,
+    );
+
     return (
         <div className="overlay" >
             <div className="backdrop" onClick={onClose}></div>
             <div className="modal">
                 <div className="user-container">
                     <header className="headers">
-                        <h2>Add User</h2>
+                        <h2>Add User.....</h2>
                         <button className="btn close" onClick={onClose}>
                             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark"
                                 className="svg-inline--fa fa-xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -24,15 +35,25 @@ const CreateUserModal = ({
                                 <label htmlFor="firstName">First name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="firstName" name="firstName" type="text" />
+                                    <input id="firstName"
+                                        name="firstName"
+                                        value={values.firstName}
+                                        onChange={onChange}
+                                        type="text" />
                                 </div>
+                                {err.firstName && <span className="createMSG">{err.firstName}</span>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="lastName">Last name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="lastName" name="lastName" type="text" />
+                                    <input id="lastName"
+                                        name="lastName"
+                                        value={values.lastName}
+                                        onChange={onChange}
+                                        type="text" />
                                 </div>
+                                {err.lastName && <span className="createMSG">{err.lastName}</span>}
                             </div>
                         </div>
 
@@ -41,15 +62,25 @@ const CreateUserModal = ({
                                 <label htmlFor="email">Email</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-envelope"></i></span>
-                                    <input id="email" name="email" type="text" />
+                                    <input id="email"
+                                        value={values.email}
+                                        onChange={onChange}
+                                        name="email"
+                                        type="text" />
                                 </div>
+                                {err.email && <span className="createMSG">{err.email}</span>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="phoneNumber">Phone number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-phone"></i></span>
-                                    <input id="phoneNumber" name="phoneNumber" type="text" />
+                                    <input id="phoneNumber"
+                                        name="phoneNumber"
+                                        value={values.phoneNumber}
+                                        onChange={onChange}
+                                        type="text" />
                                 </div>
+                                {err.phoneNumber && <span className="createMSG">{err.phoneNumber}</span>}
                             </div>
                         </div>
 
@@ -57,8 +88,13 @@ const CreateUserModal = ({
                             <label htmlFor="imageUrl">Image Url</label>
                             <div className="input-wrapper">
                                 <span><i className="fa-solid fa-image"></i></span>
-                                <input id="imageUrl" name="imageUrl" type="text" />
+                                <input id="imageUrl"
+                                    value={values.imageUrl}
+                                    onChange={onChange}
+                                    name="imageUrl"
+                                    type="text" />
                             </div>
+                            {err.imageUrl && <span className="createMSG">{err.imageUrl}</span>}
                         </div>
 
                         <div className="form-row">
@@ -66,15 +102,25 @@ const CreateUserModal = ({
                                 <label htmlFor="country">Country</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="country" name="country" type="text" />
+                                    <input id="country"
+                                        name="country"
+                                        onChange={onChange}
+                                        value={values.country}
+                                        type="text" />
                                 </div>
+                                {err.country && <span className="createMSG">{err.country}</span>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="city">City</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-city"></i></span>
-                                    <input id="city" name="city" type="text" />
+                                    <input id="city"
+                                        name="city"
+                                        onChange={onChange}
+                                        value={values.city}
+                                        type="text" />
                                 </div>
+                                {err.city && <span className="createMSG">{err.city}</span>}
                             </div>
                         </div>
 
@@ -83,22 +129,33 @@ const CreateUserModal = ({
                                 <label htmlFor="street">Street</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="street" name="street" type="text" />
+                                    <input id="street"
+                                        name="street"
+                                        onChange={onChange}
+                                        value={values.street}
+                                        type="text" />
                                 </div>
+                                {err.street && <span className="createMSG">{err.street}</span>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="streetNumber">Street number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-house-chimney"></i></span>
-                                    <input id="streetNumber" name="streetNumber" type="text" />
+                                    <input id="streetNumber"
+                                        name="streetNumber"
+                                        onChange={onChange}
+                                        value={values.streetNumber}
+                                        type="text" />
+
                                 </div>
+                                {err.streetNumber && <span className="createMSG">{err.streetNumber}</span>}
                             </div>
-                        </div>
-                        <div id="form-actions">
-                            <button id="action-save" className="btn" type="submit">Save</button>
-                            <button id="action-cancel" className="btn" type="button" onClick={onClose}>
-                                Cancel
-                            </button>
+                            <div id="form-actions">
+                                <button id="action-save" className="btn" type="submit" onClick={onHadlerCreated} >Save</button>
+                                <button id="action-cancel" className="btn" type="button" onClick={onClose}>
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
