@@ -1,5 +1,3 @@
-
-
 const validatecreate = (values) => {
     let validErr = {}
 
@@ -27,30 +25,35 @@ const validatecreate = (values) => {
     }
 
     else if (!regExp.test(values.phoneNumber)) {
-        validErr.phoneNumber = 'Телефонът е невалиден'
+        validErr.phoneNumber = 'Телефонът е невалиден,трябва да е число!'
     }
 
     if (!values.imageUrl) {
         validErr.imageUrl = 'Цената е задължителна!'
     }
+
     else if (!imageRegx.test(values.imageUrl)) {
-        validErr.imageUrl = 'Невалиден адресс!!!'
+        validErr.imageUrl = 'Невалиден адресс!'
     }
 
     if (!values.country) {
-        validErr.country = 'Телефонният номер е задългителен'
+        validErr.country = 'Полето е задължително!'
+    }
+
+    else if (values.country.length < 6) {
+        validErr.country = 'Country трябва де е поне 6 знака!'
     }
 
     if (!values.city) {
-        validErr.city = 'Телефонният номер е задългителен'
+        validErr.city = 'Полето за Град е задължително!'
     }
 
     else if (values.city.length < 6) {
-        validErr.city = 'City трябва да е поне 6 знака!'
+        validErr.city = 'Полето трябва да е поне 6 знака!'
     }
 
     if (!values.street) {
-        validErr.street = 'Телефонният номер е задългителен'
+        validErr.street = 'Полето за Улица е задължително!'
     }
 
     else if (values.street.length < 6) {
@@ -58,10 +61,9 @@ const validatecreate = (values) => {
     }
 
     if (!values.streetNumber) {
-        validErr.streetNumber = 'Телефонният номер е задългителен'
+        validErr.streetNumber = 'Полето за номер на улица е задължително!'
     }
-
-
     return validErr;
 }
+
 export default validatecreate
