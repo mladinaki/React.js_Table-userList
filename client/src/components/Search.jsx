@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
-import * as userService from "../services/userService";
-
-
 const Search = ({
     onSearch,
+    changeSortField,
+    onSortBy
+
 }) => {
 
-  
     return (
-        <form className="search-form" onChange={(e) => onSearch(e.target.value)}>
+        <form className="search-form">
             <h2>
                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user"
                     className="svg-inline--fa fa-user SearchBar_icon__cXpTg" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +18,8 @@ const Search = ({
                 <span>Users</span>
             </h2>
             <div className="search-input-container">
-                <input type="text" placeholder="Please, select the search criteria" name="search" />
+                <input type="text" placeholder="Please, select the search criteria" name="search"
+                    onChange={onSearch} />
                 {/* <!-- Show the clear button only if input field length !== 0 --> */}
                 <button className="btn close-btn">
                     <i className="fa-solid fa-xmark"></i>
@@ -32,13 +31,13 @@ const Search = ({
             </div>
 
             <div className="filter">
-                <span>Search Criteria:</span>
-                <select name="criteria" className="criteria">
-                    <option value="">Not selected</option>
-                    <option value="">First Name</option>
-                    <option value="">Last Name</option>
-                    <option value="">Email</option>
-                    <option value="">Phone</option>
+                <span>Search By:</span>
+                <select name="criteria" className="criteria" onChange={(e) => changeSortField(e.target.value)}>
+
+                    <option value='lastName'>Not selected</option>
+                    <option value='lastName'>Ascending</option>
+                    <option value='email'>Descending</option>
+                    <option value='phone'>Phone</option>
                 </select>
             </div>
         </form>
@@ -46,3 +45,4 @@ const Search = ({
 };
 
 export default Search;
+

@@ -19,7 +19,8 @@ const UserListTable = () => {
     const [selectedUser, setSelectedUser] = useState(null);
 
     const [selectEdit, setEdit] = useState(false);
-    const [selectSearch, setSelectSearch] = useState([]);
+    const [selectSearch, setSelectSearch] = useState();
+    const [sorField, setSortField] = useState('ASD')
 
     useEffect(() => {
         setIsLoading(true);
@@ -28,7 +29,17 @@ const UserListTable = () => {
             .then(result => setUsers(result))
             .catch(err => console.log(err))
             .finally(() => setIsLoading(false));
+
+        userService.getAll()
+            .then(res => setSelectSearch(res))
     }, []);
+
+    useEffect(() => {
+        setIsLoading(true);
+        userService.getAll()
+            .then(res => setSelectSearch(res))
+    }, []);
+
 
     const createUserClickHandler = () => {
         setShowCreate(true);
@@ -78,16 +89,22 @@ const UserListTable = () => {
         setEdit(false)
     }
 
-    //All search item
-    // useEffect(() => {
-    //     userService.getAll()
-    //         .then(res => setSelectSearch(res))
-    // })
+    // All search item
 
-    const onSearch = (value) => {
-        const searchItem = selectSearch.filter(x => x.firstName.toLowerCase().includes(value))
-        setUsers(searchItem)
+    const onSearch = (e, value) => {
+        const res = selectSearch.filter((x) => x['firstName'].toLowerCase().includes(e.target.value))
+        setUsers(res)
     }
+
+    const changeSortField = (field) => {
+        if (sorField === 'ASD') {
+
+            const sorted = [...users].sort((a, b) => b[field].toLowerCase() > a[field].toLowerCase() ? 1 : -1)
+            setUsers(sorted);
+            setSortField('ASD')
+        }
+    }
+
 
     const onSubCreate = async (values) => {
         const result = await userService.create(values);
@@ -129,7 +146,10 @@ const UserListTable = () => {
 
             {selectSearch && (
                 <Search
-                    onSearch={onSearch} />
+                    users={users}
+                    onSearch={onSearch}
+                    changeSortField={changeSortField}
+                />
             )}
 
             {isLoading && <Spinner />}
@@ -190,22 +210,28 @@ const UserListTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
-                        <UserListItem
-                            key={user._id}
-                            userId={user._id}
-                            createdAt={user.createdAt}
-                            email={user.email}
-                            firstName={user.firstName}
-                            imageUrl={user.imageUrl}
-                            lastName={user.lastName}
-                            phoneNumber={user.phoneNumber}
-                            onInfoClick={userInfoClickHandler}
-                            onDeleteClick={deleteUserClickHandler}
-                            onEditId={onEditId}
-                            onSubmitEdit={subEdit}
-                        />
-                    ))}
+                    {users.map(user => {
+                        return (
+                            <UserListItem
+                                users={users}
+                                key={user._id}
+                                userId={user._id}
+                                createdAt={user.createdAt}
+                                email={user.email}
+                                firstName={user.firstName}
+                                imageUrl={user.imageUrl}
+                                lastName={user.lastName}
+                                phoneNumber={user.phoneNumber}
+                                onInfoClick={userInfoClickHandler}
+                                onDeleteClick={deleteUserClickHandler}
+                                onEditId={onEditId}
+                                onSubmitEdit={subEdit}
+
+                            />
+                        )
+                    }
+                    )}
+                    {users.length === 0 && <h2>Empti list!</h2>}
                 </tbody>
             </table>
 

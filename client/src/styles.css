@@ -469,6 +469,7 @@ ul {
 
 .criteria {
   margin-right: 20px;
+  z-index: 7;
 }
 
 @media (max-width: 768px) {
